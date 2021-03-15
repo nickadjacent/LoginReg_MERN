@@ -64,16 +64,12 @@ module.exports = {
             .json({ msg: "ok" });
     },
 
-    delete(req, res) {
-        User.findByIdAndDelete(req.params.id)
-            .then((user) => res.json(user))
-            .catch((err) => res.status(400).json(err));
+    getAll(req, res) {
+        User.find()
+            .then((users) => res.json(users))
+            .catch((err) => res.json(err));
     },
 
-    logout2(req, res) {
-        res.clearCookie("usertoken");
-        res.json({ msg: "usertoken cookie cleared" });
-    },
 
     getLoggedInUser(req, res) {
         const decodedJWT = jwt.decode(req.cookies.usertoken, { complete: true });
@@ -83,11 +79,25 @@ module.exports = {
             .catch((err) => res.json(err));
     },
 
-    getAll(req, res) {
-        User.find()
-            .then((users) => res.json(users))
-            .catch((err) => res.json(err));
+
+    delete(req, res) {
+        User.findByIdAndDelete(req.params.id)
+            .then((user) => res.json(user))
+            .catch((err) => res.status(400).json(err));
     },
+
+
+
+
+    // ------- Not Used -------
+
+
+
+    logout2(req, res) {
+        res.clearCookie("usertoken");
+        res.json({ msg: "usertoken cookie cleared" });
+    },
+
 
     getOne(req, res) {
         User.findOne({ _id: req.params.id })
